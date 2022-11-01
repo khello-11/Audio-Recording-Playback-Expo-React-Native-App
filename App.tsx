@@ -4,12 +4,12 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import { Audio } from "expo-av";
 import * as Sharing from "expo-sharing";
 
-export default function App() {
+const App = () => {
   const [recording, setRecording] = useState<any>();
   const [recordings, setRecordings] = useState([]);
   const [message, setMessage] = useState<String>("");
 
-  async function startRecording() {
+  const startRecording = async () => {
     try {
       const permission = await Audio.requestPermissionsAsync();
 
@@ -30,9 +30,9 @@ export default function App() {
     } catch (err) {
       console.error("Failed to start recording", err);
     }
-  }
+  };
 
-  async function stopRecording() {
+  const stopRecording = async () => {
     setRecording(undefined);
     await recording.stopAndUnloadAsync();
 
@@ -45,17 +45,17 @@ export default function App() {
     });
 
     setRecordings(updatedRecordings);
-  }
+  };
 
-  function getDurationFormatted(millis) {
+  const getDurationFormatted = millis => {
     const minutes = millis / 1000 / 60;
     const minutesDisplay = Math.floor(minutes);
     const seconds = Math.round((minutes - minutesDisplay) * 60);
     const secondsDisplay = seconds < 10 ? `0${seconds}` : seconds;
     return `${minutesDisplay}:${secondsDisplay}`;
-  }
+  };
 
-  function getRecordingLines() {
+  const getRecordingLines = () => {
     return recordings.map((recordingLine, index) => {
       return (
         <View key={index} style={styles.row}>
@@ -75,7 +75,7 @@ export default function App() {
         </View>
       );
     });
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -88,7 +88,9 @@ export default function App() {
       <StatusBar style="auto" />
     </View>
   );
-}
+};
+export default App;
+
 
 const styles = StyleSheet.create({
   container: {
